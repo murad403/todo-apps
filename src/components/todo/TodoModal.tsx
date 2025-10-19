@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -8,47 +8,70 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { addTodo } from "@/redux/features/todoSlice";
+import { useAppDispatch } from "@/redux/hooks";
+import { useState, type FormEvent } from "react";
 
 const TodoModal = () => {
-    return (
-        <Dialog>
+    const dispatch = useAppDispatch();
+    const [task, setTask] = useState("");
+    const [description, setDescription] = useState("");
+  const handleAddTask = (e: FormEvent) => {
+    e.preventDefault();
+    const id = Math.random().toString(36).substring(2, 12);
+    const taskDetails = {
+        id, task, description
+    }
+    // console.log(taskDetails);
+    dispatch(addTodo(taskDetails));
+  };
+  return (
+    <Dialog>
       <form>
         <DialogTrigger asChild>
-          {/* <Button variant="outline">Open Dialog</Button> */}
-          <Button className="bg-gradient-to-l to-violet-500 from-red-500 font-semibold cursor-pointer">Add todo</Button>
+          <Button className="bg-gradient-to-l to-violet-500 from-red-500 font-semibold cursor-pointer">
+            Add todo
+          </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Edit profile</DialogTitle>
+            <DialogTitle>Add task</DialogTitle>
             <DialogDescription>
-              Make changes to your profile here. Click save when you&apos;re
-              done.
+              Add your tasks that yout want to finish.
             </DialogDescription>
           </DialogHeader>
-          <div className="grid gap-4">
-            <div className="grid gap-3">
-              <Label htmlFor="name-1">Name</Label>
-              <Input id="name-1" name="name" defaultValue="Pedro Duarte" />
+          <form onSubmit={handleAddTask}>
+            <div className="grid gap-4">
+              <div className="grid gap-3">
+                <Label htmlFor="task">Task</Label>
+                <Input  onChange={(e) => setTask(e.target.value)} id="task" name="task" />
+              </div>
+              <div className="grid gap-3">
+                <Label htmlFor="description">Description</Label>
+                <Input
+                    onChange={(e) => setDescription(e.target.value)}
+                  id="description"
+                  name="description"
+                />
+              </div>
             </div>
-            <div className="grid gap-3">
-              <Label htmlFor="username-1">Username</Label>
-              <Input id="username-1" name="username" defaultValue="@peduarte" />
-            </div>
-          </div>
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DialogClose>
-            <Button type="submit">Save changes</Button>
-          </DialogFooter>
+            <DialogFooter className="mt-4">
+              <DialogClose asChild>
+                <Button variant="outline" className="cursor-pointer">Cancel</Button>
+              </DialogClose>
+              <DialogClose asChild>
+                <Button type="submit" className="cursor-pointer">Save changes</Button>
+              </DialogClose>
+              
+            </DialogFooter>
+          </form>
         </DialogContent>
       </form>
     </Dialog>
-    )
+  );
 };
 
 export default TodoModal;
