@@ -3,6 +3,7 @@ import { MdOutlineDelete } from "react-icons/md";
 import { Button } from "../ui/button";
 import { useAppDispatch } from "@/redux/hooks";
 import { removeTodo, toggleComplete } from "@/redux/features/todoSlice";
+import { useGetTodoQuery } from "@/redux/api/api";
 
 type TTodo = {
     id: string;
@@ -13,6 +14,8 @@ type TTodo = {
 
 const TodoCard = ({todo}: {todo: TTodo}) => {
     // console.log(todo);
+    const {data} = useGetTodoQuery(undefined);
+    // console.log(data);
     const dispatch = useAppDispatch();
     const handleRemoveTodo = () =>{
         dispatch(removeTodo(todo.id));
