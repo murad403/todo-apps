@@ -7,7 +7,7 @@ import { useAppSelector } from "@/redux/hooks";
 
 const Todo = () => {
     const todos = useAppSelector((state) => state.todos.todos);
-    console.log(todos);
+    // console.log(todos);
     return (
         <div className="h-screen w-full max-w-6xl mx-auto">
             <h2 className="text-3xl font-semibold text-center my-5">My Todo Apps</h2>
